@@ -76,6 +76,7 @@ crashlytics-build.properties
 fabric.properties
 
 # CMake
+/cmake-build-debug/
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
