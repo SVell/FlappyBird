@@ -1,0 +1,26 @@
+"C:\Program Files\JetBrains\CLion 2022.2\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2022.2/bin/ninja/win/ninja.exe" -G Ninja -S C:\Users\SVell\Documents\C++\FlappyBird -B C:\Users\SVell\Documents\C++\FlappyBird\cmake-build-debug
+CMake Warning (dev) at C:/Program Files/JetBrains/CLion 2022.2/bin/cmake/win/share/cmake-3.23/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+  The package name passed to `find_package_handle_standard_args` (SDL2main)
+  does not match the name of the calling package (SDL2).  This can lead to
+  problems in calling code that expects `find_package` result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  cmake/FindSDL2.cmake:318 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
+  CMakeLists.txt:8 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at C:/Program Files/JetBrains/CLion 2022.2/bin/cmake/win/share/cmake-3.23/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+  The package name passed to `find_package_handle_standard_args` (SDL2main)
+  does not match the name of the calling package (SDL2).  This can lead to
+  problems in calling code that expects `find_package` result variables
+  (e.g., `_FOUND`) to follow a certain pattern.
+Call Stack (most recent call first):
+  cmake/FindSDL2.cmake:318 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
+  cmake/FindSDL2_image.cmake:114 (find_package)
+  CMakeLists.txt:9 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found SDL2_image: C:/Program Files/JetBrains/CLion 2022.2/bin/mingw/lib/libSDL2_image.dll.a (found version "2.6.0") 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/SVell/Documents/C++/FlappyBird/cmake-build-debug
