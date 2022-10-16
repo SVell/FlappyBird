@@ -9,6 +9,6 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR})
 
-add_executable(FlappyBird src/main.cpp src/Game.cpp src/Game.h src/TextureManager.cpp src/TextureManager.h src/Bird.cpp src/Bird.h src/Sprite.h)
+add_executable(FlappyBird src/main.cpp src/Game.cpp src/Game.h src/TextureManager.cpp src/TextureManager.h src/Bird.cpp src/Bird.h src/Sprite.h src/Constants.h src/Sprite.cpp)
 
 target_link_libraries(FlappyBird ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} -lmingw32 -lSDL2main -lSDL2 -mwindows)

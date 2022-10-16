@@ -8,7 +8,7 @@ public:
     Game();
     ~Game();
 
-    void Init(const char* windowTitle, const int xPos, const int yPos, const int width, const int height, bool fullscreen);
+    void Init(const char* windowTitle, const int xPos, const int yPos, bool fullscreen);
 
     void HandleEvents();
     void Update();
@@ -17,9 +17,16 @@ public:
 
     bool IsRunning(){return isRunning;}
 
+    static const int SCREEN_WIDTH;
+    static const int SCREEN_HEIGHT;
+
     static SDL_Renderer* renderer;
     static bool isRunning;
+
+    static const double GRAVITY;
 private:
+
+
     SDL_Window* window;
 
     Bird* player = nullptr;

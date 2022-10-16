@@ -1,9 +1,14 @@
 #include <iostream>
 #include "Game.h"
 
+const int Game::SCREEN_WIDTH = 200;
+const int Game::SCREEN_HEIGHT = 400;
+
 SDL_Renderer* Game::renderer = nullptr;
 
 bool Game::isRunning = false;
+
+const double Game::GRAVITY = 400;
 
 Game::Game() {
 
@@ -13,7 +18,7 @@ Game::~Game() {
 
 }
 
-void Game::Init(const char *windowTitle, const int xPos, const int yPos, const int width, const int height, bool fullscreen) {
+void Game::Init(const char *windowTitle, const int xPos, const int yPos, bool fullscreen) {
 
     int flags = 0;
 
@@ -26,7 +31,7 @@ void Game::Init(const char *windowTitle, const int xPos, const int yPos, const i
         return;
     }
     else{
-        window = SDL_CreateWindow(windowTitle, xPos, yPos, width, height, flags);
+        window = SDL_CreateWindow(windowTitle, xPos, yPos, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
 
         if(window == nullptr){
             SDL_Log("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -61,6 +66,13 @@ void Game::HandleEvents() {
         case SDL_KEYDOWN:
             if(event.key.keysym.sym == SDLK_ESCAPE){
                 isRunning = false;
+            }
+            switch (event.key.keysym.sym) {
+                case SDLK_ESCAPE:
+                    isRunning = false;
+                    break;
+                case SDLK_SPACE:
+                    player->SetYVelocity(-3000);
             }
         default:
             break;
