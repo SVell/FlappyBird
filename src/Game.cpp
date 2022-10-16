@@ -47,7 +47,7 @@ void Game::Init(const char *windowTitle, const int xPos, const int yPos, const i
 
     SDL_Log("Game Initialized!");
 
-    player = new Bird("../Assets/BirdUp.png");
+    player = new Bird("../Assets/BirdUp.png", 100, 100);
 }
 
 void Game::HandleEvents() {

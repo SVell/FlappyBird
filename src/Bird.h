@@ -1,15 +1,16 @@
 #pragma once
 
-#include "SDL.h"
+#include "Sprite.h"
 
-class Bird {
+class Bird : public Sprite{
 public:
-    Bird(const char* texture);
+    Bird(const char* texture, int x, int y);
     void Update();
     void Render();
+
 private:
-    SDL_Texture* texture;
-    SDL_Rect srcRect;
-    SDL_Rect destRect;
+    static const uint16_t WIDTH = 32;
+    static const uint16_t HEIGHT = 24;
+
 };
 
