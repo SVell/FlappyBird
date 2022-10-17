@@ -1,14 +1,13 @@
 #include <iostream>
 #include "Game.h"
+#include "Player.h"
 
-const int Game::SCREEN_WIDTH = 200;
-const int Game::SCREEN_HEIGHT = 400;
+const int Game::SCREEN_WIDTH = 288;
+const int Game::SCREEN_HEIGHT = 512;
 
 SDL_Renderer* Game::renderer = nullptr;
 
 bool Game::isRunning = false;
-
-const double Game::GRAVITY = 400;
 
 Game::Game() {
 
@@ -52,7 +51,8 @@ void Game::Init(const char *windowTitle, const int xPos, const int yPos, bool fu
 
     SDL_Log("Game Initialized!");
 
-    player = new Bird("../Assets/BirdUp.png", 100, 100);
+    player = new Player("../Assets/BirdUp.png", SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 12, 32, 24);
+    objects.push_back(new GameObject("../Assets/BG.png", 0 ,0, SCREEN_WIDTH, SCREEN_HEIGHT));
 }
 
 void Game::HandleEvents() {
@@ -72,19 +72,29 @@ void Game::HandleEvents() {
                     isRunning = false;
                     break;
                 case SDLK_SPACE:
-                    player->SetYVelocity(-3000);
+                    break;
             }
         default:
             break;
     }
+
+    player->HandleEvents(event);
 }
 
 void Game::Update() {
     player->Update();
+
+    for (auto obj : objects){
+        obj->Update();
+    }
 }
 
 void Game::Render() {
     SDL_RenderClear(renderer);
+
+    for (auto obj : objects){
+        obj->Render();
+    }
 
     player->Render();
 
@@ -95,6 +105,12 @@ void Game::Clean() {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
+
+    delete player;
+
+    for (auto obj : objects){
+        delete obj;
+    }
 
     std::cout << "Game Cleaned" << std::endl;
 }

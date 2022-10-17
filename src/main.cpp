@@ -2,8 +2,6 @@
 #include <SDL2/SDL.h>
 #include "Game.h"
 
-
-
 const int FPS = 60;
 constexpr int frameDelay = 1000 / FPS;
 

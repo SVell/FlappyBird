@@ -1,7 +1,8 @@
 #pragma once
 
+#include <vector>
 #include "SDL.h"
-#include "Bird.h"
+#include "GameObject.h"
 
 class Game {
 public:
@@ -26,8 +27,7 @@ public:
     static const double GRAVITY;
 private:
 
-
     SDL_Window* window;
-
-    Bird* player = nullptr;
+    GameObject* player;
+    std::vector<GameObject*> objects;
 };
