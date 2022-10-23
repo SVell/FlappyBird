@@ -20,6 +20,9 @@ public:
     GameObject(const char* path, int xPos, int yPos, int width = 32, int height = 32);
     ~GameObject();
 
+    const Vector2 GetPosition() const { return position; }
+    const SDL_Rect GetRect() const { return destRect;}
+
     virtual void Update();
     virtual void Render();
     virtual void HandleEvents(SDL_Event event);
@@ -28,4 +31,5 @@ public:
     void SetPosition(const Vector2& newPos);
     void SetVelocity(const Vector2& newVelocity);
     void AddVelocity(const Vector2& velocityToAdd);
+
 };

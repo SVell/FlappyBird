@@ -7,7 +7,7 @@ public:
     const int gravityStrength = 10;
     const int maxVelocity = gravityStrength * 100;
 
-    const int jumpStrength = -400;
+    const int jumpStrength = -300;
 
     Player(const char* path, int xPos, int yPos, int sWidth, int sHeight) : GameObject(path, xPos, yPos, sWidth, sHeight){};
 

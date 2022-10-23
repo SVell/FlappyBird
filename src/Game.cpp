@@ -1,21 +1,19 @@
 #include <iostream>
 #include "Game.h"
 #include "Player.h"
+#include "Pipe.h"
+#include "Collision.h"
 
 const int Game::SCREEN_WIDTH = 288;
-const int Game::SCREEN_HEIGHT = 512;
+const int Game::SCREEN_HEIGHT = 624;
 
 SDL_Renderer* Game::renderer = nullptr;
 
 bool Game::isRunning = false;
 
-Game::Game() {
+Game::Game() = default;
 
-}
-
-Game::~Game() {
-
-}
+Game::~Game() = default;
 
 void Game::Init(const char *windowTitle, const int xPos, const int yPos, bool fullscreen) {
 
@@ -52,7 +50,7 @@ void Game::Init(const char *windowTitle, const int xPos, const int yPos, bool fu
     SDL_Log("Game Initialized!");
 
     player = new Player("../Assets/BirdUp.png", SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 12, 32, 24);
-    objects.push_back(new GameObject("../Assets/BG.png", 0 ,0, SCREEN_WIDTH, SCREEN_HEIGHT));
+    CreateEnv();
 }
 
 void Game::HandleEvents() {
@@ -84,16 +82,54 @@ void Game::HandleEvents() {
 void Game::Update() {
     player->Update();
 
-    for (auto obj : objects){
+    bg->Update();
+
+    for(auto obj: pipes) {
         obj->Update();
+
+        if(obj->GetPosition().x + obj->GetRect().w < 0) {
+            Vector2 newPos;
+            newPos.x = SCREEN_WIDTH / 2 * (pipes.size() / 2);
+            newPos.y = obj->GetPosition().y;
+            obj->SetPosition(newPos);
+        }
+    }
+
+    for(auto f : floor){
+        f->Update();
+
+        if(f->GetPosition().x + f->GetRect().w < 0){
+            Vector2 newPos;
+            newPos.x = f->GetRect().w - 4;
+            newPos.y = f->GetPosition().y;
+            f->SetPosition(newPos);
+        }
+    }
+
+    return;
+    // Handle collision
+    for (auto obj : pipes){
+        bool res = Collision::AABB(player->GetRect(), obj->GetRect());
+        if (res) {
+            player->SetVelocity(Vector2(0, 400));
+            for (auto obj : pipes){
+                obj->SetVelocity(Vector2(0, 0));
+            }
+        }
     }
 }
 
 void Game::Render() {
     SDL_RenderClear(renderer);
 
-    for (auto obj : objects){
+    bg->Render();
+
+    for (auto obj : pipes){
         obj->Render();
+    }
+
+    for (auto f : floor){
+        f->Render();
     }
 
     player->Render();
@@ -108,9 +144,34 @@ void Game::Clean() {
 
     delete player;
 
-    for (auto obj : objects){
+    for (auto obj : pipes){
         delete obj;
     }
 
     std::cout << "Game Cleaned" << std::endl;
+}
+
+void Game::CreateEnv(int pipesPairsToCreate) {
+
+    bg = new GameObject("../Assets/BG.png", 0 ,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    floor.emplace_back(new Pipe("../Assets/base.png", 0, SCREEN_HEIGHT - 112, 336, 112, false, -200));
+    floor.emplace_back(new Pipe("../Assets/base.png", 336, SCREEN_HEIGHT - 112, 336, 112, false, -200));
+
+    for(int i = 0; i < pipesPairsToCreate; ++i){
+        pipes.emplace_back(new Pipe("../Assets/pipe.png",
+                                      SCREEN_WIDTH + SCREEN_WIDTH / 2 * i,
+                                      SCREEN_HEIGHT / 3 - 320 - 56,
+                                    52,
+                                    320,
+                                    true,
+                                    -200));
+        pipes.emplace_back(new Pipe("../Assets/pipe.png",
+                                      SCREEN_WIDTH + SCREEN_WIDTH / 2 * i,
+                                      SCREEN_HEIGHT / 3 * 2 - 56,
+                                    52,
+                                    320,
+                                    false,
+                                    -200));
+    }
 }

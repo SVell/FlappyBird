@@ -9,14 +9,14 @@ public:
     Game();
     ~Game();
 
-    void Init(const char* windowTitle, const int xPos, const int yPos, bool fullscreen);
+    void Init(const char* windowTitle, int xPos, int yPos, bool fullscreen);
 
     void HandleEvents();
     void Update();
     void Render();
     void Clean();
 
-    bool IsRunning(){return isRunning;}
+    bool IsRunning() const {return isRunning;}
 
     static const int SCREEN_WIDTH;
     static const int SCREEN_HEIGHT;
@@ -26,8 +26,11 @@ public:
 
     static const double GRAVITY;
 private:
-
     SDL_Window* window;
     GameObject* player;
-    std::vector<GameObject*> objects;
+    GameObject* bg;
+    std::vector<GameObject*> floor;
+    std::vector<GameObject*> pipes;
+
+    void CreateEnv(int pipesPairsToCreate = 5);
 };
