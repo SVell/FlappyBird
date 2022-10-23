@@ -1,12 +1,12 @@
-#include "Pipe.h"
+#include "MovingObject.h"
 #include "TextureManager.h"
 
-Pipe::Pipe(const char* path, int xPos, int yPos, int sWidth, int sHeight, bool flip, int speed)
+MovingObject::MovingObject(const char* path, int xPos, int yPos, int sWidth, int sHeight, bool flip, int speed)
         : GameObject(path, xPos, yPos, sWidth, sHeight), flipY(flip){
     velocity.x = speed;
 }
 
-void Pipe::Update() {
+void MovingObject::Update() {
     int vX = velocity.x / 60;
     int vY = velocity.y / 60;
 
@@ -14,7 +14,7 @@ void Pipe::Update() {
     destRect.x += vX;
 }
 
-void Pipe::Render() {
+void MovingObject::Render() {
     if(flipY)
     {
         TextureManager::DrawFlipped(texture, srcRect, destRect, SDL_FLIP_VERTICAL);

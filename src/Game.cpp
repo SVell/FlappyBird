@@ -1,7 +1,8 @@
 #include <iostream>
+#include <random>
 #include "Game.h"
 #include "Player.h"
-#include "Pipe.h"
+#include "MovingObject.h"
 #include "Collision.h"
 
 const int Game::SCREEN_WIDTH = 288;
@@ -88,8 +89,10 @@ void Game::Update() {
         obj->Update();
 
         if(obj->GetPosition().x + obj->GetRect().w < 0) {
+            int randomPosX = GenerateRandomNumber(-10, 50);
+
             Vector2 newPos;
-            newPos.x = SCREEN_WIDTH / 2 * (pipes.size() / 2);
+            newPos.x = SCREEN_WIDTH / 1.5f * (pipes.size() / 2);
             newPos.y = obj->GetPosition().y;
             obj->SetPosition(newPos);
         }
@@ -155,23 +158,36 @@ void Game::CreateEnv(int pipesPairsToCreate) {
 
     bg = new GameObject("../Assets/BG.png", 0 ,0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    floor.emplace_back(new Pipe("../Assets/base.png", 0, SCREEN_HEIGHT - 112, 336, 112, false, -200));
-    floor.emplace_back(new Pipe("../Assets/base.png", 336, SCREEN_HEIGHT - 112, 336, 112, false, -200));
+    floor.emplace_back(new MovingObject("../Assets/base.png", 0, SCREEN_HEIGHT - 112, 336, 112, false, -200));
+    floor.emplace_back(new MovingObject("../Assets/base.png", 336, SCREEN_HEIGHT - 112, 336, 112, false, -200));
 
     for(int i = 0; i < pipesPairsToCreate; ++i){
-        pipes.emplace_back(new Pipe("../Assets/pipe.png",
-                                      SCREEN_WIDTH + SCREEN_WIDTH / 2 * i,
-                                      SCREEN_HEIGHT / 3 - 320 - 56,
-                                    52,
-                                    320,
-                                    true,
-                                    -200));
-        pipes.emplace_back(new Pipe("../Assets/pipe.png",
-                                      SCREEN_WIDTH + SCREEN_WIDTH / 2 * i,
-                                      SCREEN_HEIGHT / 3 * 2 - 56,
-                                    52,
-                                    320,
-                                    false,
-                                    -200));
+        int randomPosX = GenerateRandomNumber(-10, 50);
+        int randomPosY = GenerateRandomNumber(-50, 50);
+        SDL_Log("%d", randomPosX);
+
+        pipes.emplace_back(new MovingObject("../Assets/pipe.png",
+                                      SCREEN_WIDTH + SCREEN_WIDTH / 1.5f * i + randomPosX,
+                                      SCREEN_HEIGHT / 3 - 320 - 56 + randomPosY,
+                                            52,
+                                            320,
+                                            true,
+                                            -200));
+        pipes.emplace_back(new MovingObject("../Assets/pipe.png",
+                                      SCREEN_WIDTH + SCREEN_WIDTH / 1.5f * i + randomPosX,
+                                      SCREEN_HEIGHT / 3 * 2 - 56 + randomPosY,
+                                            52,
+                                            320,
+                                            false,
+                                            -200));
     }
 }
+
+int Game::GenerateRandomNumber(int from, int to) {
+    std::random_device r;
+    std::default_random_engine generator(r());
+    std::uniform_int_distribution<int> distribution(from, to);
+    return distribution(generator);
+}
+
+

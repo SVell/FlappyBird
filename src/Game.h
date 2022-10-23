@@ -33,4 +33,5 @@ private:
     std::vector<GameObject*> pipes;
 
     void CreateEnv(int pipesPairsToCreate = 5);
+    int GenerateRandomNumber(int from, int to);
 };
