@@ -9,6 +9,8 @@ public:
 
     const int jumpStrength = -300;
 
+    bool isDead = false;
+
     Player(const char* path, int xPos, int yPos, int sWidth, int sHeight) : GameObject(path, xPos, yPos, sWidth, sHeight){};
 
     void Update() override;

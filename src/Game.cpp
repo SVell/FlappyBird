@@ -89,8 +89,6 @@ void Game::Update() {
         obj->Update();
 
         if(obj->GetPosition().x + obj->GetRect().w < 0) {
-            int randomPosX = GenerateRandomNumber(-10, 50);
-
             Vector2 newPos;
             newPos.x = SCREEN_WIDTH / 1.5f * (pipes.size() / 2);
             newPos.y = obj->GetPosition().y;
@@ -109,15 +107,36 @@ void Game::Update() {
         }
     }
 
-    return;
     // Handle collision
+    // Pipes
     for (auto obj : pipes){
         bool res = Collision::AABB(player->GetRect(), obj->GetRect());
         if (res) {
             player->SetVelocity(Vector2(0, 400));
+            player->isDead = true;
             for (auto obj : pipes){
                 obj->SetVelocity(Vector2(0, 0));
             }
+            for (auto obj : floor){
+                obj->SetVelocity(Vector2(0, 0));
+            }
+            break;
+        }
+    }
+
+    // Floor
+    for (auto obj : floor){
+        bool res = Collision::AABB(player->GetRect(), obj->GetRect());
+        if (res) {
+            player->SetVelocity(Vector2(0, 0));
+            player->isDead = true;
+            for(auto obj: pipes) {
+                obj->SetVelocity(Vector2(0, 0));
+            }
+            for(auto obj: floor) {
+                obj->SetVelocity(Vector2(0, 0));
+            }
+            break;
         }
     }
 }
@@ -164,7 +183,6 @@ void Game::CreateEnv(int pipesPairsToCreate) {
     for(int i = 0; i < pipesPairsToCreate; ++i){
         int randomPosX = GenerateRandomNumber(-10, 50);
         int randomPosY = GenerateRandomNumber(-50, 50);
-        SDL_Log("%d", randomPosX);
 
         pipes.emplace_back(new MovingObject("../Assets/pipe.png",
                                       SCREEN_WIDTH + SCREEN_WIDTH / 1.5f * i + randomPosX,

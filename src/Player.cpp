@@ -1,6 +1,9 @@
 #include "Player.h"
 
 void Player::HandleEvents(SDL_Event event) {
+
+    if(isDead) return;
+
     GameObject::HandleEvents(event);
 
     switch(event.type) {

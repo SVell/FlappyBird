@@ -3,6 +3,7 @@
 #include <vector>
 #include "SDL.h"
 #include "GameObject.h"
+#include "Player.h"
 
 class Game {
 public:
@@ -27,7 +28,7 @@ public:
     static const double GRAVITY;
 private:
     SDL_Window* window;
-    GameObject* player;
+    Player* player;
     GameObject* bg;
     std::vector<GameObject*> floor;
     std::vector<GameObject*> pipes;
