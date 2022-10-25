@@ -29,6 +29,14 @@ void Game::Init(const char *windowTitle, const int xPos, const int yPos, bool fu
         return;
     }
     else{
+
+        if(TTF_Init() == -1)
+        {
+            SDL_Log( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+            return;
+        }
+
+
         window = SDL_CreateWindow(windowTitle, xPos, yPos, SCREEN_WIDTH, SCREEN_HEIGHT, flags);
 
         if(window == nullptr){
@@ -51,6 +59,7 @@ void Game::Init(const char *windowTitle, const int xPos, const int yPos, bool fu
     SDL_Log("Game Initialized!");
 
     player = new Player("../Assets/BirdUp.png", SCREEN_WIDTH / 2 - 16, SCREEN_HEIGHT / 2 - 12, 32, 24);
+    score = new Score(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 8);
     CreateEnv();
 }
 
@@ -155,6 +164,7 @@ void Game::Render() {
     }
 
     player->Render();
+    score->Render();
 
     SDL_RenderPresent(renderer);
 }

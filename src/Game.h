@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "Score.h"
 
 class Game {
 public:
@@ -29,10 +30,13 @@ public:
 private:
     SDL_Window* window;
     Player* player;
+    Score* score;
     GameObject* bg;
     std::vector<GameObject*> floor;
     std::vector<GameObject*> pipes;
 
     void CreateEnv(int pipesPairsToCreate = 5);
     int GenerateRandomNumber(int from, int to);
+
+    void LoadMedia();
 };
